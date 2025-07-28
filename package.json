@@ -9,7 +9,8 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --check . --config .prettierrc.mjs",
-    "format:fix": "prettier --write . --config .prettierrc.mjs"
+    "format:fix": "prettier --write . --config .prettierrc.mjs",
+    "generate:types": "payload generate:types"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
