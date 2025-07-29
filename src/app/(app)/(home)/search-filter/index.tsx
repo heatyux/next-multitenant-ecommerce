@@ -1,3 +1,4 @@
+import { Categories } from './categories'
 import { SearchInput } from './search-input'
 
 type SearchFilterProps = {
@@ -11,7 +12,8 @@ export const SearchFilter = ({ data }: SearchFilterProps) => {
       {/* Search bar input field */}
       <SearchInput />
 
-      {JSON.stringify(data, null, 2)}
+      {/* Categories filter section */}
+      <Categories data={data} />
     </div>
   )
 }
