@@ -2,6 +2,7 @@
   "name": "next-multitenant-ecommerce",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,7 +11,8 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --check . --config .prettierrc.mjs",
     "format:fix": "prettier --write . --config .prettierrc.mjs",
-    "generate:types": "payload generate:types"
+    "generate:types": "payload generate:types",
+    "db:fresh": "payload migrate:fresh"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
