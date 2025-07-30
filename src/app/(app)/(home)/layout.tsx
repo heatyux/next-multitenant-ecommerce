@@ -26,6 +26,7 @@ const HomeLayout = async ({ children }: PropsWithChildren) => {
         exists: false,
       },
     },
+    sort: 'name',
   })
 
   // Format the data to flatten subcategories and remove nested sub-subcategories
