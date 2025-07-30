@@ -33,9 +33,6 @@ const categories = [
       { name: 'Game Development', slug: 'game-development' },
       { name: 'Programming Languages', slug: 'programming-languages' },
       { name: 'DevOps', slug: 'devops' },
-      { name: 'Software Testing', slug: 'software-testing' },
-      { name: 'Software Engineering', slug: 'software-engineering' },
-      { name: 'Data Science & Analytics', slug: 'data-science-analytics' },
     ],
   },
   {
@@ -44,7 +41,7 @@ const categories = [
     slug: 'writing-publishing',
     subcategories: [
       { name: 'Fiction', slug: 'fiction' },
-      { name: 'Non-fiction', slug: 'non-fiction' },
+      { name: 'Non-Fiction', slug: 'non-fiction' },
       { name: 'Blogging', slug: 'blogging' },
       { name: 'Copywriting', slug: 'copywriting' },
       { name: 'Self-Publishing', slug: 'self-publishing' },
@@ -146,7 +143,7 @@ const seed = async () => {
         name: category.name,
         color: category.color,
         slug: category.slug,
-        parent: null,
+        parent: null, // Top-level category has no parent
       },
     })
 
@@ -163,7 +160,11 @@ const seed = async () => {
   }
 }
 
-// Run the seed function
-await seed()
-
-process.exit(0) // Exit the process after seeding
+try {
+  await seed() // Run the seed function to populate the database
+  console.log('Seeding completed successfully') // Log success message
+  process.exit(0) // Exit process with success code
+} catch (error) {
+  console.log('Error during seeding', error) // Log the error that occurred during seeding
+  process.exit(1) // Exit process with failure code
+}
