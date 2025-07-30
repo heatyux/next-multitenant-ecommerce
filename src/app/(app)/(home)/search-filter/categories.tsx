@@ -84,19 +84,44 @@ export const Categories = ({ data }: CategoriesProps) => {
 
     // clean up the observer on component unmount
     return () => {
-      resizeObserver.disconnect()
+      return resizeObserver.disconnect()
     }
   }, [data.length])
 
   return (
     <div className="relative w-full">
-      <div className="flex flex-nowrap items-center">
+      {/* Hidden measuring container - used only for layout calculations */}
+      <div
+        ref={measureRef}
+        className="pointer-events-none absolute flex opacity-0"
+        style={{ position: 'fixed', top: -9999, left: -9999 }}
+      >
+        {/* Render all categories in hidden container to calculate widths */}
         {data.map((category) => (
           <div key={category.id}>
             <CategoryDropdown
-              category={category}
-              isActive={false}
-              isNavigationHovered={false}
+              category={category} // Category object for dropdown
+              isActive={activeCategory == category.slug} // Mark as active if matches current active category
+              isNavigationHovered={isAnyHovered} // Pass shared hover state
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Visible dropdowns container */}
+      <div
+        ref={containerRef}
+        className="flex flex-nowrap items-center"
+        onMouseEnter={() => setIsAnyHovered(true)} // Enable hover state when mouse enters
+        onMouseLeave={() => setIsAnyHovered(false)} // Disable hover state when mouse leaves
+      >
+        {/* Render only categories that fit within visible width */}
+        {data.slice(0, visibleCount).map((category) => (
+          <div key={category.id}>
+            <CategoryDropdown
+              category={category} // Category object
+              isActive={activeCategory == category.slug} // Mark as active if matches current active category
+              isNavigationHovered={false} // Disable hover styling inside visible container
             />
           </div>
         ))}
@@ -108,10 +133,11 @@ export const Categories = ({ data }: CategoriesProps) => {
               'hover:border-primary h-11 rounded-full border-transparent bg-transparent px-4 text-black hover:bg-white',
               isActiveCategoryHidden &&
                 !isAnyHovered &&
-                'border-primary bg-black',
+                'border-primary bg-white', // Style as active if current active category is hidden
             )}
           >
-            View All <ListFilterIcon className="ml-2" />
+            View All
+            <ListFilterIcon className="ml-2" />
           </Button>
         </div>
       </div>
