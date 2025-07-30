@@ -11,10 +11,12 @@ export const SearchFilter = ({ data }: SearchFilterProps) => {
   return (
     <div className="flex w-full flex-col gap-4 border-b px-4 py-8 lg:px-12">
       {/* Search bar input field */}
-      <SearchInput />
+      <SearchInput data={data} />
 
-      {/* Categories filter section */}
-      <Categories data={data} />
+      {/* Categories filter section (only visible on large screens) */}
+      <div className="hidden lg:block">
+        <Categories data={data} />
+      </div>
     </div>
   )
 }
