@@ -1,8 +1,9 @@
+import { CustomCategory } from '../types'
 import { Categories } from './categories'
 import { SearchInput } from './search-input'
 
 type SearchFilterProps = {
-  data: any // TODO: Data used for rendering filter options (e.g., categories, tags, etc.)
+  data: CustomCategory[]
 }
 
 // SearchFilter - Renders a search input and filter data section

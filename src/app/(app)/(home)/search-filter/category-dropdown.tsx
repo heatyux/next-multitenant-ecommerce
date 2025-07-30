@@ -4,13 +4,13 @@ import { useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { Category } from '@/payload-types'
 
+import { CustomCategory } from '../types'
 import { SubcategoryMenu } from './subcategory-menu'
 import { useDropdownPosition } from './use-dropdown-position'
 
 type CategoryDropdownProps = {
-  category: Category // The category object to render
+  category: CustomCategory // The category object to render
   isActive?: boolean // Indicates if the current category is active
   isNavigationHovered?: boolean // Indicates if the navigation is currently hovered
 }

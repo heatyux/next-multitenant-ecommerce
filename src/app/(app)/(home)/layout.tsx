@@ -8,6 +8,7 @@ import { Category } from '@/payload-types'
 import { Footer } from './footer'
 import { Navbar } from './navbar'
 import { SearchFilter } from './search-filter'
+import { CustomCategory } from './types'
 
 const HomeLayout = async ({ children }: PropsWithChildren) => {
   // Initialize Payload CMS with config
@@ -28,7 +29,7 @@ const HomeLayout = async ({ children }: PropsWithChildren) => {
   })
 
   // Format the data to flatten subcategories and remove nested sub-subcategories
-  const formatedData = data.docs.map((doc) => ({
+  const formatedData: CustomCategory[] = data.docs.map((doc) => ({
     ...doc,
     subcategories: (doc.subcategories?.docs ?? []).map((doc) => ({
       ...(doc as Category), // Cast to Category since depth: 1 ensures proper typing
