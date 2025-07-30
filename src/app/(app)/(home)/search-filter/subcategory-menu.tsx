@@ -2,8 +2,10 @@ import Link from 'next/link'
 
 import { Category } from '@/payload-types'
 
+import { CustomCategory } from '../types'
+
 type SubcategoryMenuProps = {
-  category: Category // The category object containing the subcategories to be displayed
+  category: CustomCategory // The category object containing the subcategories to be displayed
   isOpen: boolean // Indicates whether the dropdown menu is open or closed
   position: { top: number; left: number } // Position where the menu should be rendered (top and left coordinates)
 }
@@ -43,7 +45,7 @@ export const SubcategoryMenu = ({
           {category.subcategories.map((subcategory: Category) => (
             <Link
               key={subcategory.slug}
-              href={'/'}
+              href={`/${category.slug}/${subcategory.slug}`}
               className="flex w-full items-center justify-between p-4 text-left font-medium underline hover:bg-black hover:text-white"
             >
               {subcategory.name}
