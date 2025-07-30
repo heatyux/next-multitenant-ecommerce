@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 import { CustomCategory } from '../types'
+import { CategoriesSidebar } from './categories-sidebar'
 import { CategoryDropdown } from './category-dropdown'
 
 type CategoriesProps = {
@@ -90,6 +91,13 @@ export const Categories = ({ data }: CategoriesProps) => {
 
   return (
     <div className="relative w-full">
+      {/* Categories sidebar */}
+      <CategoriesSidebar
+        open={isSidebarOpen}
+        onOpenChange={setIsSidebarOpen}
+        data={data}
+      />
+
       {/* Hidden measuring container - used only for layout calculations */}
       <div
         ref={measureRef}
@@ -135,6 +143,7 @@ export const Categories = ({ data }: CategoriesProps) => {
                 !isAnyHovered &&
                 'border-primary bg-white', // Style as active if current active category is hidden
             )}
+            onClick={() => setIsSidebarOpen(true)}
           >
             View All
             <ListFilterIcon className="ml-2" />
