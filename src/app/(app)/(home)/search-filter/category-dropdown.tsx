@@ -6,13 +6,13 @@ import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { CategoriesGetManyOutput } from '@/modules/categories/types'
 
-import { CustomCategory } from '../types'
 import { SubcategoryMenu } from './subcategory-menu'
 import { useDropdownPosition } from './use-dropdown-position'
 
 type CategoryDropdownProps = {
-  category: CustomCategory // The category object to render
+  category: CategoriesGetManyOutput[1] // The category object to render
   isActive?: boolean // Indicates if the current category is active
   isNavigationHovered?: boolean // Indicates if the navigation is currently hovered
 }

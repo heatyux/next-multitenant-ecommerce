@@ -6,13 +6,13 @@ import { ListFilterIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { CategoriesGetManyOutput } from '@/modules/categories/types'
 
-import { CustomCategory } from '../types'
 import { CategoriesSidebar } from './categories-sidebar'
 import { CategoryDropdown } from './category-dropdown'
 
 type CategoriesProps = {
-  data: CustomCategory[]
+  data: CategoriesGetManyOutput
 }
 
 // Categories - Renders a list of categories dropdown buttons with responsive visibility

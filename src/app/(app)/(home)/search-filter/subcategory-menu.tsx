@@ -1,11 +1,10 @@
 import Link from 'next/link'
 
+import { CategoriesGetManyOutput } from '@/modules/categories/types'
 import { Category } from '@/payload-types'
 
-import { CustomCategory } from '../types'
-
 type SubcategoryMenuProps = {
-  category: CustomCategory // The category object containing the subcategories to be displayed
+  category: CategoriesGetManyOutput[1] // The category object containing the subcategories to be displayed
   isOpen: boolean // Indicates whether the dropdown menu is open or closed
   position: { top: number; left: number } // Position where the menu should be rendered (top and left coordinates)
 }

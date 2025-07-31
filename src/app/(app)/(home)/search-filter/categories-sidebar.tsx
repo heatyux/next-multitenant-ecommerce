@@ -11,9 +11,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
+import { CategoriesGetManyOutput } from '@/modules/categories/types'
 import { useTRPC } from '@/trpc/client'
-
-import { CustomCategory } from '../types'
 
 type CategoriesSidebarProps = {
   open: boolean // Whether the sidebar is currently open
@@ -31,13 +30,13 @@ export const CategoriesSidebar = ({
   const router = useRouter()
 
   // State to track current parent category view (null = top-level categories)
-  const [parentCategory, setParentCategory] = useState<CustomCategory[] | null>(
-    null,
-  )
+  const [parentCategory, setParentCategory] =
+    useState<CategoriesGetManyOutput | null>(null)
 
   // State to track the currently selected category (used for back navigation and styling)
-  const [selectedCategory, setSelectedCategory] =
-    useState<CustomCategory | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<
+    CategoriesGetManyOutput[1] | null
+  >(null)
 
   // Use subcategories if navigating into a parent category, else use top-level data
   const currentCategories = parentCategory ?? data ?? []
@@ -53,10 +52,10 @@ export const CategoriesSidebar = ({
   }
 
   // Handle a category click (navigate into subcategories or redirect to category page)
-  const handleCategoryClick = (category: CustomCategory) => {
+  const handleCategoryClick = (category: CategoriesGetManyOutput[1]) => {
     if (category.subcategories && category.subcategories.length > 0) {
       // If the category has subcategories, show them
-      setParentCategory(category.subcategories as CustomCategory[])
+      setParentCategory(category.subcategories as CategoriesGetManyOutput)
       setSelectedCategory(category)
     } else {
       // If leaf category, construct redirect path based on slug
