@@ -1,50 +1,33 @@
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, Suspense } from 'react'
 
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 
-import { Category } from '@/payload-types'
+import { getQueryClient, trpc } from '@/trpc/server'
 
 import { Footer } from './footer'
 import { Navbar } from './navbar'
-import { SearchFilter } from './search-filter'
-import { CustomCategory } from './types'
+import { SearchFilter, SearchFiltersSkeleton } from './search-filter'
 
 const HomeLayout = async ({ children }: PropsWithChildren) => {
-  // Initialize Payload CMS with config
-  const payload = await getPayload({
-    config: configPromise,
-  })
+  // Initializa a new React Query Client for managing cached queries
+  const queryClient = getQueryClient()
 
-  // Fetch all top-level categories (i.e., categories without a parent)
-  const data = await payload.find({
-    collection: 'categories',
-    pagination: false, // Retrieve all categories without pagination
-    depth: 1, // Also include subcategories one level deep
-    where: {
-      parent: {
-        exists: false,
-      },
-    },
-    sort: 'name',
-  })
-
-  // Format the data to flatten subcategories and remove nested sub-subcategories
-  const formatedData: CustomCategory[] = data.docs.map((doc) => ({
-    ...doc,
-    subcategories: (doc.subcategories?.docs ?? []).map((doc) => ({
-      ...(doc as Category), // Cast to Category since depth: 1 ensures proper typing
-      subcategories: undefined, // Prevent further nesting for simplicity
-    })),
-  }))
+  // Prefetch category data on the server using React Query and tRPC before hydration
+  void queryClient.prefetchQuery(trpc.categories.getMany.queryOptions())
 
   return (
     <div className="flex min-h-screen flex-col">
       {/* Top navigation bar */}
       <Navbar />
 
-      {/* Search filter input */}
-      <SearchFilter data={formatedData} />
+      {/* Wrap the SearchFilters with HydrationBoundary to hydrate server-side fetched data for React Query */}
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        {/* Use Suspense to display a fallback skeleton while SearchFilters is loading */}
+        <Suspense fallback={<SearchFiltersSkeleton />}>
+          {/* Search filter input */}
+          <SearchFilter />
+        </Suspense>
+      </HydrationBoundary>
 
       {/* Main content area */}
       <div className="flex-1 bg-[#F4F4F0]">{children}</div>
