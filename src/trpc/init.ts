@@ -1,6 +1,8 @@
 import { cache } from 'react'
 
+import config from '@payload-config'
 import { initTRPC } from '@trpc/server'
+import { getPayload } from 'payload'
 
 export const createTRPCContext = cache(() => {
   /**
@@ -25,4 +27,11 @@ const t = initTRPC.create({
  */
 export const createTRPCRouter = t.router
 export const createCallerFactory = t.createCallerFactory
-export const baseProcedure = t.procedure
+// baseProcedure - Wraps a procedure with Payload CMS initialization and attaches the DB context
+export const baseProcedure = t.procedure.use(async ({ next }) => {
+  // Initialize Payload CMS with the provided config
+  const payload = await getPayload({ config })
+
+  // Pass the Payload instance as db context for use in procedures
+  return next({ ctx: { db: payload } })
+})
