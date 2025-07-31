@@ -7,26 +7,20 @@ import { ListFilterIcon, SearchIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-import type { CustomCategory } from '../types'
 import { CategoriesSidebar } from './categories-sidebar'
 
 interface SearchInputProps {
-  data: CustomCategory[]
   disabled?: boolean
 }
 
 // SearchInput - Input field with a search icon used to filter/search for products
-export const SearchInput = ({ data, disabled }: SearchInputProps) => {
+export const SearchInput = ({ disabled }: SearchInputProps) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   return (
     <div className="flex w-full items-center gap-2">
       {/* Sidebar for category filters (mobile only) */}
-      <CategoriesSidebar
-        open={isSidebarOpen}
-        onOpenChange={setIsSidebarOpen}
-        data={data}
-      />
+      <CategoriesSidebar open={isSidebarOpen} onOpenChange={setIsSidebarOpen} />
 
       <div className="relative w-full">
         <SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-neutral-500" />
